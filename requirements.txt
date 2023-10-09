@@ -1,2 +1,3 @@
 azure-cognitiveservices-vision-computervision==0.7.0
 notion-client
+requests

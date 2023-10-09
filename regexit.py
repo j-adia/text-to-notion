@@ -1,7 +1,4 @@
 import re
-from dotenv import load_dotenv
-import os
-from notion_client import AsyncClient
 
 text = '''TO-DO:
 1. Meal prep over-night oats for breakfast
@@ -25,8 +22,5 @@ for i in range(0, len(matches)):
     numbered_list_item['text'] = list_item_text.lstrip()
     numbered_list.append(numbered_list_item)
 
-print(numbered_list)
-
-
-
+# print(numbered_list)
 
