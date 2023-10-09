@@ -4,7 +4,7 @@ General Implementation Idea:
 - [x] OCR with Azure AI Vision SDK
 - [x] parses detected text into a text file
 - [ ] uses regex to identify each line
-    # example: identify numbered lists -> '[0-9]\.\s'
+    # example: identify numbered lists -> '([0-9]\.\s)+'
     # example: identify bullet_list -> '^-.+'
 
 - [ ] organize information into a dictionary
