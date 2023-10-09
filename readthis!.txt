@@ -1,4 +1,0 @@
-1) Text Analyzer for written notes 
-- takes notes from a notebook and turns them into a notion document 
-- use AI tool (optical character recognition) to scan image and convert hand-written text to digital text
-- parse text file to create notion document using Notion API
