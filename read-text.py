@@ -1,14 +1,4 @@
-# code from Azure AI Text Recognition Lab
-from dotenv import load_dotenv
-import os
-import time
-from PIL import Image, ImageDraw
-from matplotlib import pyplot as plt
-
-# Import namespaces
-from azure.cognitiveservices.vision.computervision import ComputerVisionClient
-from azure.cognitiveservices.vision.computervision.models import OperationStatusCodes
-from msrest.authentication import CognitiveServicesCredentials
+from ocr_imports import *
 
 def main():
     global cv_client
