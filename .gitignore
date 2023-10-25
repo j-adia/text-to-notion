@@ -2,3 +2,5 @@ node_modules/
 .venv/
 .env
 myapp.code-workspace
+detected_text.txt
+__pycache__/
