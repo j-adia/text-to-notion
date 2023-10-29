@@ -7,7 +7,7 @@ General Implementation Idea:
     # example: identify numbered lists -> '([0-9]\.\s)+'
     # example: identify bullet_list -> '^-.+'
 
-- [ ] organize information into a dictionary
+- [x] organize information into a dictionary
     #  page = {[
     #    'numbered_list': [numbered list text],
     #    'bullet_list': [text.split('-')],
@@ -19,4 +19,9 @@ General Implementation Idea:
     #    ]
     # ]}
     
-- [ ] uses data from dictionary to create notion document using Notion API
+- [x] uses data from dictionary to create notion document using Notion API
+
+Next Steps:
+- [ ] create a simple GUI tool
+- [ ] configure new page without a parent page (IMPORTANT)
+- [ ] scale project by allowing other users to login to Notion 

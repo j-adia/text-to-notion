@@ -14,13 +14,13 @@ def main():
 
         # Menu for text reading functions
         print('Pick a number to show example\n'
-              '1: To-do List\n2: Health and Fitness Log\n'
+              '1: Math\n2: Health and Fitness Log\n'
               '3: Class Notes\n4: Dog Notes\n'
               '5: Weekly Activity Tracker')
         command = input('Enter a number: ')
 
         if command == '1':
-            image_file = os.path.join('images', 'note1.jpg')
+            image_file = os.path.join('images', 'note1.jpeg')
             GetTextRead(image_file)
         elif command == '2':
             image_file = os.path.join('images', 'bj.png')
@@ -37,9 +37,10 @@ def main():
 
     except Exception as ex:
         print(ex)
+        sys.exit(1)
 
 def GetTextRead(image_file):
-    print('Reading text in {}\n'.format(image_file))
+    print('\nReading text in {}...\n'.format(image_file))
 
     # Use Read API to read text in image
     with open(image_file, mode="rb") as image_data:
@@ -65,7 +66,7 @@ def GetTextRead(image_file):
                 for page in read_results.analyze_result.read_results:
                     for line in page.lines:
                         file.write(line.text + '\n')
-            print("Text file generated")            
+            print("Text file generated!")            
             file.close()
             
 
