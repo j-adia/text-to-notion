@@ -2,42 +2,6 @@
 from api_imports import *
 
 # -------------------------------
-# using regex to segment our text file into numbered list and bullet point 
-
-import re
-try:
-    with open('detected_text.txt') as file:
-        line = file.read()
-        # find numbered list (1. ) 
-        m = re.findall('\d+\.\s+.*', line)
-        # find bullet point list -, *, 
-        p = re.findall('(\n\-|\*)(\s.*)', line)
-
-    file.close()
-
-except FileNotFoundError:
-    print('file was not found!')
-
-# array to hold numbered list items
-numberlist = []
-
-for match in m:
-    # argument '1' ensures splitting is done only one time
-    numberlist.append(match.split('.', 1)[1].lstrip())
-
-print(numberlist)
-
-# array to hold bullet list items
-bulletlist = []
-
-for match in p:
-    bulletlist.append(match[1].lstrip())
-
-print(bulletlist)
-# -------------------------------
-
-
-# -------------------------------
 # using notion-client (notion API) to create/append pages
 
 # get the notion token from the .env file
@@ -46,32 +10,91 @@ notion = Client(auth=os.getenv('NOTION_TOKEN'))
 
 # get the 'master page' id
 page_id = os.getenv('PAGE_ID')
-new_page_id = []
+
+# array that holds page content blocks
+page_content = [
+    # {"heading_2":{"rich_text":[{"text":{"content": "Numbered List from text file:"}}]}}
+]
+
+# -------------------------------
+# using regex to parse our text file and find numbered list, bulleted list, paragraph, and header
+
+import re
+
+# keep the title of our file to use later
+page_title = []
+
+try:
+    with open('detected_text.txt', 'r') as file:
+        # CASE: what if there was an empty line in front of the title?
+        # find title (first line in text starts with a word)
+        title = re.search(r'^[a-z].*', file.readline(), re.IGNORECASE)
+        if (title):
+            text = title.group()
+            page_title.append(text)
+            page_content.append({"heading_1":{"rich_text":[{"text":{"content": text}}]}})
+
+        # used as a flag when we encounter an empty space (used to catch headings)
+        empty_space = None
+
+        for line in file:   
+            # when the previous line is empty, the line after is a heading       
+            if (empty_space):
+                text = line
+                page_content.append({"heading_3":{"rich_text":[{"text":{"content": text}}]}})
+                empty_space = None
+                continue
+
+            # find numbered list (1. ) 
+            n = re.search(r'\d+\s*\.\s+.*', line)
+            # find bullet point list -, *, 
+            b = re.search(r'(\n?\-|\*)(\s.*)', line)
+            # find paragraph
+            p = re.search(r'^[a-z].*', line, re.IGNORECASE)
+            # find empty space 
+            empty_space = re.search(r'^\s*$', line)
+            print(empty_space)
+
+            if (empty_space):
+                # proceed to next line
+                continue
+
+            if (n):
+                # argument '1' ensures splitting is done only one time
+                text = n.group().split('.', 1)[1].lstrip()
+                page_content.append({"numbered_list_item":{"rich_text":[{"text":{"content": text}}]}})
+
+            if (b):
+                text = b.group(2).lstrip()
+                page_content.append({"bulleted_list_item":{"rich_text":[{"text":{"content": text}}]}})
+
+            if (p):
+                text = p.group()
+                page_content.append({"paragraph":{"rich_text":[{"text":{"content": text}}]}})
+            
+    file.close()
+
+except FileNotFoundError:
+    print('file was not found!')
+# -------------------------------
 
 # creating a new page:
 # things to note:
 #   - do not capitalize page properties, results in API response error: "Invalid property identifier"
 #   - when creating a new page, the only property that can be accessed is 'title'
 
-# array that holds page content blocks
-page_content = [
-    {"heading_2":{"rich_text":[{"text":{"content": "Numbered List from text file:"}}]}}
-]
-
-for item in numberlist:
-    page_content.append({"numbered_list_item":{"rich_text":[{"text":{"content": item}}]}})
-
-for item in bulletlist:
-    page_content.append({"bulleted_list_item":{"rich_text":[{"text":{"content": item}}]}})
-
 # adds a new page block to parent page
+new_page_id = []
+
 def create_page():
     print("CREATE NEW PAGE")
 
-    your_title = input("enter a new page title: ")
+    if (not title):
+        text = input("enter a page title: ")
+        page_title.append(text)
 
     properties = {
-        "title": [{"text": {"content": your_title}}],  
+        "title": [{"text": {"content": page_title[0]}}],  
     }
 
     # create new page request from Notion API
@@ -91,14 +114,8 @@ def create_page():
 # add new content blocks to page
 def add_content(content):
     try:
-        notion.blocks.children.append(block_id=new_page_id[0], children=content
-            # SAMPLE BLOCK STRUCTURE
-            # [
-            #     {"heading_2":{"rich_text":[{"text":{"content": "a bot made this page!"}}]}},
-            #     {"paragraph":{"rich_text":[{"text":{"content": "How?"}}]}},
-            #     {"toggle":{"rich_text":[{"text":{"content": "a developer made a program in python"}}]}},
-            # ]
-        )
+        notion.blocks.children.append(block_id=new_page_id[0], children=content)
+        print(json.dumps(content, indent=2))
     except Exception as e:
         print(e)
 
