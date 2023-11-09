@@ -14,25 +14,25 @@ def main():
 
         # Menu for text reading functions
         print('Pick a number to show example\n'
-              '1: Math\n2: Health and Fitness Log\n'
-              '3: Class Notes\n4: Dog Notes\n'
-              '5: Weekly Activity Tracker')
+              '1: Math\n2: Dog Photo\n'
+              '3: Google Presentation\n4: Unity Installation Guide\n'
+              '5: Email')
         command = input('Enter a number: ')
 
         if command == '1':
             image_file = os.path.join('images', 'note1.jpeg')
             GetTextRead(image_file)
         elif command == '2':
-            image_file = os.path.join('images', 'bj.png')
+            image_file = os.path.join('images', 'dog.jpeg')
             GetTextRead(image_file)
         elif command == '3':
-            image_file = os.path.join('images', 'note2.jpg')
+            image_file = os.path.join('images', 'google.jpeg')
             GetTextRead(image_file)
         elif command == '4':
-            image_file = os.path.join('images', 'note3.jpg')
+            image_file = os.path.join('images', 'unity.jpeg')
             GetTextRead(image_file)
         elif command == '5':
-            image_file = os.path.join('images', 'note4.jpg')
+            image_file = os.path.join('images', 'email.pdf')
             GetTextRead(image_file)
 
     except Exception as ex:
@@ -66,9 +66,8 @@ def GetTextRead(image_file):
                 for page in read_results.analyze_result.read_results:
                     for line in page.lines:
                         file.write(line.text + '\n')
-            print("Text file generated!")            
-            file.close()
-            
+            file.close() 
+        
 
 if __name__ == "__main__":
     main()

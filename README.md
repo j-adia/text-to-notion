@@ -4,24 +4,17 @@ General Implementation Idea:
 - [x] OCR with Azure AI Vision SDK
 - [x] parses detected text into a text file
 - [x] uses regex to identify each line
-    # example: identify numbered lists -> '([0-9]\.\s)+'
-    # example: identify bullet_list -> '^-.+'
-
 - [x] organize information into a dictionary
-    #  page = {[
-    #    'numbered_list': [numbered list text],
-    #    'bullet_list': [text.split('-')],
-    #    'nested_list': [
-    #       {
-    #           parent_text: "some text",
-    #           children: ["blah", "bleep", "bloop"]
-    #       }
-    #    ]
-    # ]}
-    
 - [x] uses data from dictionary to create notion document using Notion API
 
 Next Steps:
-- [ ] create a simple GUI tool
-- [ ] configure new page without a parent page (IMPORTANT)
-- [ ] scale project by allowing other users to login to Notion 
+
+Tweaks:
+- [ ] make function to detect and add nested block elements
+- [ ] find a tool that cleans up spelling errors by Read API 
+
+Bugs:
+- [ ] when a bullet point has text spanning more than one line, only the first line is parsed as a bullet point, while the remaining lines are separated and parsed as paragraphs
+
+Major Stuff:
+- [ ] make web app for project
