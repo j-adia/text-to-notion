@@ -26,10 +26,9 @@ def main():
     ]
 
     parse_file(page_title, page_content)
+    get_children(page_content)
     create_page(page_title, page_id, new_page_id, notion)
     add_content(new_page_id, page_content, notion)
-
-
 
 # deletes our text file after we're done using it
 def delete_text_file():
@@ -72,7 +71,7 @@ def parse_file(page_title, page_content):
                 # find numbered list (1. ) 
                 n = re.search(r'\d+\s*\.\s+.*', line)
                 # find bullet point list -, *, 
-                b = re.search(r'(\n?\-|\*)(\s.*)', line)
+                b = re.search(r'^(\-|\*|\.)(\s.*)', line)
                 # find paragraph
                 p = re.search(r'^[a-z].*', line, re.IGNORECASE)
                 # find empty space 
@@ -95,13 +94,30 @@ def parse_file(page_title, page_content):
                     text = p.group()
                     page_content.append({"paragraph":{"rich_text":[{"text":{"content": text}}]}})
                 
+                
         file.close()
         print("Parsing complete!")
-        delete_text_file()
+        # delete_text_file()
 
     except FileNotFoundError as e:
         print(e)
         exit(1)
+
+def get_children(page_content):
+    children = []
+
+    # go through page_content backwards so pop() doesn't affect the length
+    for i in range(len(page_content)-1, -1, -1):
+        if "numbered_list_item" in page_content[i]:
+            page_content[i]["children"] = []
+            j = i + 1
+            while j < len(page_content) and "bulleted_list_item" in page_content[j]:
+                page_content[i]["children"].append(page_content[j])
+                page_content.pop(j)
+                j += 1
+
+    print(json.dumps(page_content, indent=2))
+
 
 # notion-client module: create/append pages
 
