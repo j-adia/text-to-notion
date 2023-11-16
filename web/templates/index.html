@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>text-to-notion</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/styles.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Work+Sans">
+</head>
+<body>
+    <div class="landing">
+        <div class="box">
+            <h1 class="title">Welcome to Text-to-Notion</h1>
+            <p class="subtitle">make your notebook digital with Notion API</p>
+            <button id="begin_button">Start</button>
+        </div>
+        <div class="box">
+            <h3>Upload your notes</h3>
+            <form action="url" method="post" enctype="multipart/form-data">
+                <label for="file_input">Drag or drop a file</label>
+                <input type="file" id="file_input" name="file_input" accept=".jpeg, .jpg, .png, .bmp, .tiff">
+            </form>
+            <div class="box">
+                <p>Drag and drop your files here</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
