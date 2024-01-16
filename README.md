@@ -17,4 +17,9 @@ Bugs:
 - [ ] when a bullet point has text spanning more than one line, only the first line is parsed as a bullet point, while the remaining lines are separated and parsed as paragraphs
 
 Major Stuff:
-- [ ] make web app for project
+- [ ] make web app for project:
+    - [x] make page layout
+    - [ ] make a drag and drop file box
+    - [ ] add javascript
+        - [ ] make a transition from landing page to drag and drop box
+
