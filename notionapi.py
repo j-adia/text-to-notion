@@ -26,7 +26,6 @@ def main():
     ]
 
     parse_file(page_title, page_content)
-    get_children(page_content)
     create_page(page_title, page_id, new_page_id, notion)
     add_content(new_page_id, page_content, notion)
 

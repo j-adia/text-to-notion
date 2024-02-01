@@ -9,9 +9,9 @@ document.addEventListener("DOMContentLoaded", function(){
         upload.classList.add('visible');
     });
 
-    const fileInpt = document.getElementById('upload');
-    fileInpt.onchange = () => {
-        const file = fileInpt.files[0];
-        console.log(file);
-    }
+    // const fileInpt = document.getElementById('upload');
+    // fileInpt.onchange = () => {
+    //     const file = fileInpt.files[0];
+    //     console.log(file);
+    // }
 });

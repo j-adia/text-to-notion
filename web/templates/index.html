@@ -18,13 +18,15 @@
     </div>
     <div class="upload">
         <h3 class="dropBoxTitle">Upload your notes</h3>
-        <input 
-            type="file" 
-            name="upload" 
-            id="upload" 
-            accept="image/png, image/jpeg, image/jpg, image/pdf, image/txt"
-            multiple="false">
-        <!-- <input type="submit" id="submit" value="Upload"> -->
+        <form enctype="multipart/form-data" method="post">
+            <input 
+                type="file" 
+                name="file" 
+                id="upload" 
+                accept="image/png, image/jpeg, image/jpg, image/pdf, image/txt"
+                multiple="false">
+            <input type="submit" id="submit" value="Upload">
+        </form>
     </div>
     <script src="{{ url_for('static', filename='script/script.js') }}"></script>
 </body>

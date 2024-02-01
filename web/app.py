@@ -3,7 +3,8 @@ from views import views
 
 app = Flask(__name__)
 app.register_blueprint(views, url_prefix="/views")
+app.config['IMAGE_UPLOAD'] = 'C:\\Users\\holme\\text-to-notion\\images'
 
 if __name__ == '__main__':
-    app.run(debug=True, port=8000)
+    app.run(debug=True, port=5000)
 
